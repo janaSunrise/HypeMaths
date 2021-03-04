@@ -5,7 +5,7 @@ from hypemaths.exceptions import MatrixDimensionError, VectorDimensionError
 
 
 class Vector:
-    def __init__(self, *points: t.Union[int, tuple]) -> None:
+    def __init__(self, *points: t.Union[int, tuple, list]) -> None:
         """
         Constructor for the `Vector` class.
 
@@ -127,6 +127,23 @@ class Vector:
 
         vector = [self[index] * other[index] for index in range(self.dimensions)]
         return cls(vector)
+
+    def __truediv__(self, other: "Vector") -> "Vector":
+        cls = self.__class__
+
+        if not isinstance(other, cls):
+            raise TypeError(f"Vector can only be added with another Vector, not with {type(other)}")
+
+        if self.dimensions != other.dimensions:
+            raise VectorDimensionError(
+                "These vectors cannot be added due to wrong dimensions."
+            )
+
+        vector = [self[index] / other[index] for index in range(self.dimensions)]
+        return cls(vector)
+
+    def __floordiv__(self, other: "Vector") -> "Vector":
+        return self.__truediv__(other)
 
     def __radd__(self, other: "Vector") -> "Vector":
         return self.__add__(other)
