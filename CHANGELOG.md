@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `+`: Addition
   - `-`: Subtraction
   - `*`: Multiplication
+  - `/`: Division
+  - `@`: For Matrix multiplications.
 - An easier shortcut for accessing elements, and setting values:
   - Setting elements: `matrix[0, 0] = 4.3`
   - Getting elements: `matrix[1, 1]`
