@@ -64,7 +64,7 @@ class Matrix:
         Returns
         -------
         int
-            The size of the clomuns and rows multiplied
+            The integer which is the total number of items in the matrix
         '''
         matrix = Matrix(self.matrix)
         return matrix.cols * matrix.rows
