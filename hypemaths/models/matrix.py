@@ -58,6 +58,17 @@ class Matrix:
         """
         return tuple(self._get_mat_dimension(self.matrix))
 
+    @property
+    def size(self) -> int:
+        '''
+        Returns
+        -------
+        int
+            The size of the clomuns and rows multiplied
+        '''
+        matrix = Matrix(self.matrix)
+        return matrix.cols * matrix.rows
+
     def __repr__(self) -> str:
         return "{}([{}])".format(self.__class__.__name__, ",\n         ".join([str(x) for x in self.matrix]))
 
