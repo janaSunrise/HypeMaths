@@ -559,8 +559,8 @@ class Matrix:
         """
         matrix_list = [[value] for value in vector]
         return cls(matrix_list)
-
-    def flatten(self, cls: list) -> t.Union[list, tuple, "hm.Vector"]:
+    
+    def flatten(self, cls: list=list) -> t.Union[ tuple, "hm.Vector"]:
         """
         Return a flattened version of the matrix.
         All elements of the matrix are placed into a single row.
@@ -572,15 +572,13 @@ class Matrix:
         -------
         list, tuple, Vector
             A tuple containing the dimensions of the matrix passed.
-
         Examples
         --------
         >>> m = hm.Matrix([[1,2], [3,4]])
         >>> m.flatten()
         list([[1, 2, 3, 4]])
-
         """
-        if isinstance(cls, (list, tuple, "hm.Vector")):
+        if cls not in [list, tuple, hm.Vector]:
             raise TypeError(
                 f"Matrix can only be flattend to list, tuple or Vector. Got {cls}")
 
