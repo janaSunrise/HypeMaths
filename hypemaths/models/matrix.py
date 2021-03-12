@@ -58,8 +58,19 @@ class Matrix:
         """
         return tuple(self._get_mat_dimension(self.matrix))
 
+    @property
+    def size(self) -> int:
+        """
+        Returns
+        -------
+        int
+            The integer which is the total number of items in the matrix
+        """
+        matrix = Matrix(self.matrix)
+        return matrix.cols * matrix.rows
+
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.matrix})"
+        return "{}([{}])".format(self.__class__.__name__, ",\n         ".join([str(x) for x in self.matrix]))
 
     def __eq__(self, other: "Matrix") -> bool:
         if not isinstance(other, Matrix):
@@ -90,12 +101,15 @@ class Matrix:
         cls = self.__class__
 
         if not isinstance(other, cls):
-            raise TypeError(f"Matrix can only be added with other matrix. Not {type(other)}")
+            raise TypeError(
+                f"Matrix can only be added with other matrix. Not {type(other)}")
 
         if not (self.rows, self.cols) == (other.rows, other.cols):
-            raise MatrixDimensionError("These matrices cannot be added due to wrong dimensions.")
+            raise MatrixDimensionError(
+                "These matrices cannot be added due to wrong dimensions.")
 
-        matrix = [[self[row][cols] + other[row][cols] for cols in range(self.cols)] for row in range(self.rows)]
+        matrix = [[self[row][cols] + other[row][cols]
+                   for cols in range(self.cols)] for row in range(self.rows)]
 
         return cls(matrix)
 
@@ -103,12 +117,15 @@ class Matrix:
         cls = self.__class__
 
         if not isinstance(other, cls):
-            raise TypeError(f"Matrix can only be subtracted with other matrix. Not {type(other)}")
+            raise TypeError(
+                f"Matrix can only be subtracted with other matrix. Not {type(other)}")
 
         if not (self.rows, self.cols) == (other.rows, other.cols):
-            raise MatrixDimensionError("These matrices cannot be subtracted due to wrong dimensions.")
+            raise MatrixDimensionError(
+                "These matrices cannot be subtracted due to wrong dimensions.")
 
-        matrix = [[self[row][cols] - other[row][cols] for cols in range(self.cols)] for row in range(self.rows)]
+        matrix = [[self[row][cols] - other[row][cols]
+                   for cols in range(self.cols)] for row in range(self.rows)]
 
         return cls(matrix)
 
@@ -120,10 +137,12 @@ class Matrix:
             return cls(matrix)
 
         if not isinstance(other, cls):
-            raise TypeError(f"Matrix can only be multiplied with other matrix. Not {type(other)}")
+            raise TypeError(
+                f"Matrix can only be multiplied with other matrix. Not {type(other)}")
 
         if self.cols != other.rows:
-            raise MatrixDimensionError("These matrices cannot be multiplied due to wrong dimensions.")
+            raise MatrixDimensionError(
+                "These matrices cannot be multiplied due to wrong dimensions.")
 
         matrix = [[
             sum(a * b for a, b in zip(self_row, other_col)) for other_col in zip(*other)] for self_row in self
@@ -139,10 +158,12 @@ class Matrix:
             return cls(matrix)
 
         if not isinstance(other, cls):
-            raise TypeError(f"Matrix can only be divided with other matrix. Not {type(other)}")
+            raise TypeError(
+                f"Matrix can only be divided with other matrix. Not {type(other)}")
 
         if self.cols != other.rows:
-            raise MatrixDimensionError("These matrices cannot be divided due to wrong dimensions.")
+            raise MatrixDimensionError(
+                "These matrices cannot be divided due to wrong dimensions.")
 
         matrix = [[
             sum(a / b for a, b in zip(self_row, other_col)) for other_col in zip(*other)] for self_row in self
@@ -162,32 +183,35 @@ class Matrix:
     def __abs__(self) -> "Matrix":
         cls = self.__class__
 
-        matrix = [[abs(self[row][cols]) for cols in range(self.cols)] for row in range(self.rows)]
+        matrix = [[abs(self[row][cols]) for cols in range(self.cols)]
+                  for row in range(self.rows)]
         return cls(matrix)
 
     def __round__(self, n: t.Optional[int] = None) -> "Matrix":
         cls = self.__class__
 
-        matrix = [[round(self[row][cols], ndigits=n) for cols in range(self.cols)] for row in range(self.rows)]
+        matrix = [[round(self[row][cols], ndigits=n)
+                   for cols in range(self.cols)] for row in range(self.rows)]
         return cls(matrix)
 
     def __int__(self) -> "Matrix":
         cls = self.__class__
 
-        matrix = [[int(self[row][cols]) for cols in range(self.cols)] for row in range(self.rows)]
+        matrix = [[int(self[row][cols]) for cols in range(self.cols)]
+                  for row in range(self.rows)]
         return cls(matrix)
 
     def __float__(self) -> "Matrix":
         cls = self.__class__
 
-        matrix = [[float(self[row][cols]) for cols in range(self.cols)] for row in range(self.rows)]
+        matrix = [[float(self[row][cols]) for cols in range(self.cols)]
+                  for row in range(self.rows)]
         return cls(matrix)
 
     @classmethod
     def get_filled_matrix(cls, dims: tuple, fill: t.Union[int, float]) -> "Matrix":
         """
         Create a Matrix object with dimension specified containing fill value specified.
-
         Parameters
         ----------
         dims : tuple
@@ -196,22 +220,17 @@ class Matrix:
         fill : t.Union[int, float]
             This is the fill value, which works with the `dims` parameter to create a filled matrix with the given
             value. Defaults to `None`.
-
         Returns
         -------
         Matrix
             Returns filled matrix object with the dimensions and fill value passed.
-
         Examples
         --------
         Create a matrix of dimensions : (2, 2) with the fill value of 5.
-
         >>> matrix = Matrix.get_filled_matrix((2, 2), 5)
         >>> matrix
         Matrix([[5, 5], [5, 5]])
-
         Create a matrix of dimensions : (4, 3) with the fill value 9
-
         >>> matrix = Matrix.get_filled_matrix((4, 3), 9)
         >>> matrix
         Matrix([[9, 9, 9], [9, 9, 9], [9, 9, 9], [9, 9, 9]])
@@ -224,7 +243,6 @@ class Matrix:
     ) -> "Matrix":
         """
         Generate a random matrix object with the specified parameters.
-
         Parameters
         ----------
         dims: tuple
@@ -237,28 +255,21 @@ class Matrix:
             The seed for random numer generation which can be recreated later.
         round_digits: int
             The number of digits to be in the number after decimal. Set the value as number for integer values.
-
         Returns
         -------
         Matrix
             The random matrix generated from the function.
-
         Examples
         --------
         Generate a matrix with random integer values
-
         >>> matrix = Matrix.get_randomized_matrix((2, 2), 1, 10, round_digits=None)
         >>> matrix
         Matrix([[4, 9], [9, 2]])
-
         Generate a reproducible matrix with seed of 7
-
         >>> matrix = Matrix.get_randomized_matrix((2, 2), 1, 10, seed=7)
         >>> matrix
         Matrix([[3.91, 2.36], [6.86, 1.65]])
-
         Generate a float matrix with 5 digits after decimal
-
         >>> matrix = Matrix.get_randomized_matrix((2, 2), 1, 10, round_digits=5)
         >>> matrix
         Matrix([[5.82294, 4.2912], [1.52199, 5.56692]])
@@ -271,7 +282,8 @@ class Matrix:
             return True
 
         if len(dims) != 2:
-            raise ValueError("You must pass the 2 DIMENSIONS for the Matrix fill.")
+            raise ValueError(
+                "You must pass the 2 DIMENSIONS for the Matrix fill.")
 
         if is_float_or_int(min_value) and is_float_or_int(max_value):
             if seed is not None:
@@ -296,17 +308,14 @@ class Matrix:
     def _cleaned_matrix(matrix: list) -> list:
         """
         Checks if a matrix passed is valid or not and returns the processed and cleaned matrix.
-
         Parameters
         ----------
         matrix : list
             The matrix passed to this function for processing, validation and cleaning.
-
         Returns
         -------
         list
             The list consisting the validated and cleaned matrix after passing the checks.
-
         Raises
         ------
         TypeError
@@ -320,7 +329,6 @@ class Matrix:
             ----------
             mat: list
                 The matrix passed for checking if it contains sublist.
-
             Returns
             -------
             bool
@@ -334,12 +342,10 @@ class Matrix:
             ----------
             mat: list
                 The matrix passed for validating the datatypes in it.
-
             Returns
             -------
             bool
                 If the matrix contains any datatypes other than `int` or `float`.
-
             Raises
             ------
             TypeError
@@ -374,12 +380,10 @@ class Matrix:
             The dimensions for the matrix to be initialized. Only 2 dimensions (X, Y) are allowed.
         fill: t.Union[int, float]
             The value to be filled across the matrix of the specified dimension.
-
         Returns
         -------
         list
             The 2D python list, to be converted into `Matrix` object.
-
         Raises
         ------
         ValueError
@@ -388,7 +392,8 @@ class Matrix:
             If the fill value isn't either `int` or `float`.
         """
         if len(dims) != 2:
-            raise ValueError("You must pass the 2 DIMENSIONS for the Matrix fill.")
+            raise ValueError(
+                "You must pass the 2 DIMENSIONS for the Matrix fill.")
 
         if not fill:
             fill = 0
@@ -411,7 +416,6 @@ class Matrix:
         ----------
         matrix : list
             The matrix whose dimensions are to be figured out.
-
         Returns
         -------
         list
@@ -424,16 +428,13 @@ class Matrix:
     def clone(self) -> "Matrix":
         """
         Returns the copy of the matrix.
-
         Returns
         -------
         Matrix
             The copy of the present matrix.
-
         Examples
         --------
         Getting the copy instead of directly assigning, when you want to modify the matrix without disturbing the first one.
-
         >>> matrix = Matrix([[1, 2], [3, 4]])
         >>> matrix.clone()
         Matrix([[1, 2], [3, 4]])
@@ -443,27 +444,24 @@ class Matrix:
     def trace(self) -> t.Union[int, float]:
         """
         Returns the sum of the diagonals of the matrix
-
         Returns
         -------
         t.Union[int, float]
             The sum of the diagonals of the current `Matrix`
-
         Raises
         ------
         MatrixNotSquare
             If the number of columns and rows are not equal in the `Matrix`.
-
         Examples
         --------
         Getting the sum of the rows of the specified matrix.
-
         >>> matrix = Matrix([[5, 5], [3, 4]])
         >>> matrix.trace()
         9
         """
         if self.rows != self.cols:
-            raise MatrixNotSquare("Cannot retrieve the sum of diagonals as the row and column count are not same.")
+            raise MatrixNotSquare(
+                "Cannot retrieve the sum of diagonals as the row and column count are not same.")
 
         total = 0
         for i in range(self.rows):
@@ -473,14 +471,11 @@ class Matrix:
     def transpose(self) -> "Matrix":
         """
         Transposes the matrix.
-
         This converts the matrix elements order, by converting the rows into columns and vice versa.
-
         Returns
         -------
         Matrix
             The transposed matrix.
-
         Examples
         --------
         >>> mat = Matrix([[1, 2], [3, 4]])
@@ -489,17 +484,16 @@ class Matrix:
         """
         cls = self.__class__
 
-        matrix = [[self[cols][row] for cols in range(self.rows)] for row in range(self.cols)]
+        matrix = [[self[cols][row]
+                   for cols in range(self.rows)] for row in range(self.cols)]
 
         return cls(matrix)
 
     def frobenius_norm(self) -> float:
         """
         Calculate the frobenius norm of the matrix.
-
         The frobenius norm is computed by taking square root of the sums the squares of each entry of the matrix.
         This can be used to calculate the 2-norm of a column vector.
-
         Returns
         -------
         float:
@@ -514,11 +508,9 @@ class Matrix:
     def determinant(self) -> float:
         """
         Get the determinant of a matrix.
-
         In linear algebra, the determinant is a scalar value that can be computed from the elements of a square
         matrix and encodes certain properties of the linear transformation described by the matrix. The determinant of
         a matrix A is denoted det, det A, or |A|.
-
         Returns
         -------
         float:
@@ -535,7 +527,8 @@ class Matrix:
                 current_row_scaler = matrix_copy[i][fd] / matrix_copy[fd][fd]
 
                 for j in range(matrix_size):
-                    matrix_copy[i][j] = matrix_copy[i][j] - current_row_scaler * matrix_copy[fd][j]
+                    matrix_copy[i][j] = matrix_copy[i][j] - \
+                        current_row_scaler * matrix_copy[fd][j]
 
         product = 1.0
         for i in range(matrix_size):
@@ -547,17 +540,14 @@ class Matrix:
     def from_vector(cls, vector: "hm.Vector") -> "Matrix":
         """
         Convert a `Vector` into a `Matrix` object.
-
         Parameters
         ----------
         vector: Vector
             The vector which is going to be converted into Matrix.
-
         Returns
         -------
         Matrix
             The matrix formed after conversion of vector.
-
         Examples
         --------
         >>> from hypemaths import Vector
@@ -569,3 +559,38 @@ class Matrix:
         """
         matrix_list = [[value] for value in vector]
         return cls(matrix_list)
+
+    def flatten(self, cls: list) -> t.Union[list, tuple, "hm.Vector"]:
+        """
+        Return a flattened version of the matrix.
+        All elements of the matrix are placed into a single row.
+        Parameters
+        ----------
+        cls : {'list', 'tuple', 'Vector'}, Optional
+            Type the flat matrix should be returned
+        Returns
+        -------
+        list, tuple, Vector
+            A tuple containing the dimensions of the matrix passed.
+
+        Examples
+        --------
+        >>> m = hm.Matrix([[1,2], [3,4]])
+        >>> m.flatten()
+        list([[1, 2, 3, 4]])
+
+        """
+        if isinstance(cls, (list, tuple, "hm.Vector")):
+            raise TypeError(
+                f"Matrix can only be flattend to list, tuple or Vector. Got {cls}")
+
+        flat_list = []
+        # Iterate through the outer list
+        for element in self.matrix:
+            if type(element) is list:
+                # If the element is of type list, iterate through the sublist
+                for item in element:
+                    flat_list.append(item)
+            else:
+                flat_list.append(element)
+        return cls(flat_list)
