@@ -595,6 +595,9 @@ class Matrix:
 
 
     def sum(self, axis: int = None) -> t.Union[int, float, "hm.Vector", "hm.Matrix"]:
+        """
+        Returns the sum of the entire matrix or along a specific axis
+        """
         matrix = Matrix(self.matrix)
         if axis == None:
             return sum(matrix.flatten())
