@@ -560,7 +560,7 @@ class Matrix:
         matrix_list = [[value] for value in vector]
         return cls(matrix_list)
 
-    def flatten(self, cls: list = list) -> t.Union[list, tuple, "hm.Vector"]:
+    def flatten(self, cls: list=list) -> t.Union[list, tuple, "hm.Vector"]:
         """
         Return a flattened version of the matrix.
         All elements of the matrix are placed into a single row.
@@ -592,3 +592,19 @@ class Matrix:
             else:
                 flat_list.append(element)
         return cls(flat_list)
+
+
+    def sum(self, axis: int = None) -> t.Union[int, float, "hm.Vector", "hm.Matrix"]:
+        matrix = Matrix(self.matrix)
+        if axis == None:
+            return sum(matrix.flatten())
+
+        if axis not in [-1, 0, 1, None]:
+            raise TypeError(f"axis {axis} is out of bounds for array of dimension 2")
+
+        if not isinstance(axis, (list, int)):
+            raise TypeError(f"Axis should be int or list indices. Got {type(axis)}")
+        if axis == 0: 
+            return Matrix([float(sum(i)) for i in zip(*matrix)])
+        elif axis == 1:
+            return Matrix([[sum(i)] for i in matrix])
