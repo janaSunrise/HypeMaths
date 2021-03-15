@@ -618,7 +618,7 @@ class Matrix:
         Matrix([[3], [6], [9]])
         """
         matrix = Matrix(self.matrix)
-        if axis == None:
+        if axis is None:
             return sum(matrix.flatten())
 
         if axis not in [-1, 0, 1, None]:
