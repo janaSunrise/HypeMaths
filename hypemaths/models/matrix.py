@@ -560,32 +560,23 @@ class Matrix:
         matrix_list = [[value] for value in vector]
         return cls(matrix_list)
 
-    def flatten(self, cls: list) -> t.Union[list, tuple, "hm.Vector"]:
+    def flatten(self) -> "hm.Vector":
         """
         Return a flattened version of the matrix.
         All elements of the matrix are placed into a single row.
-        Parameters
-        ----------
-        cls : {'list', 'tuple', 'Vector'}, Optional
-            Type the flat matrix should be returned
+
         Returns
         -------
-        list, tuple, Vector
-            A tuple containing the dimensions of the matrix passed.
-
+        hm.Vector
+            A vector containing the elements of the matrix passed.
         Examples
         --------
         >>> m = hm.Matrix([[1,2], [3,4]])
         >>> m.flatten()
-        list([[1, 2, 3, 4]])
-
+        Vector([[1, 2, 3, 4]])
         """
-        if isinstance(cls, (list, tuple, "hm.Vector")):
-            raise TypeError(
-                f"Matrix can only be flattend to list, tuple or Vector. Got {cls}")
 
         flat_list = []
-        # Iterate through the outer list
         for element in self.matrix:
             if type(element) is list:
                 # If the element is of type list, iterate through the sublist
@@ -593,4 +584,44 @@ class Matrix:
                     flat_list.append(item)
             else:
                 flat_list.append(element)
-        return cls(flat_list)
+        return hm.Vector(flat_list)
+
+    def sum(self, axis: int = None) -> t.Union[int, float, "hm.Vector", "hm.Matrix"]:
+        """
+        Returns the sum of the entire matrix or along a specific axis
+
+        Parameters
+        ----------
+        Axis: {0, 1}, Optional
+            The sum of the matix along which axis
+
+        Returns
+        -------
+        int, float
+            The sum of the elements of the matrix
+
+        Examples
+        --------
+        >>> m = Matrix([[1, 2], [4, 2], [7, 2]])
+        >>> m.sum()
+        18
+        >>> m.sum(0)
+        Matrix([[12, 6]])
+        >>> m.sum(1)
+        Matrix([[3], [6], [9]])
+        """
+        matrix = Matrix(self.matrix)
+        if axis is None:
+            return sum(matrix.flatten())
+
+        if axis not in [-1, 0, 1, None]:
+            raise TypeError(
+                f"axis {axis} is out of bounds for array of dimension 2")
+
+        if not isinstance(axis, (list, int)):
+            raise TypeError(
+                f"Axis should be int or list indices. Got {type(axis)}")
+        if axis == 0:
+            return Matrix([float(sum(i)) for i in zip(*matrix)])
+        elif axis == 1:
+            return Matrix([[sum(i)] for i in matrix])
