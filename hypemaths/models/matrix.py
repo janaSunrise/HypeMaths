@@ -560,30 +560,23 @@ class Matrix:
         matrix_list = [[value] for value in vector]
         return cls(matrix_list)
 
-    def flatten(self, cls: list = list) -> t.Union[list, tuple, "hm.Vector"]:
+    def flatten(self) -> hm.Vector:
         """
         Return a flattened version of the matrix.
         All elements of the matrix are placed into a single row.
-        Parameters
-        ----------
-        cls : {'list', 'tuple', 'Vector'}, Optional
-            Type the flat matrix should be returned
+
         Returns
         -------
-        list, tuple, Vector
-            A tuple containing the dimensions of the matrix passed.
+        hm.Vector
+            A vector containing the elements of the matrix passed.
         Examples
         --------
         >>> m = hm.Matrix([[1,2], [3,4]])
         >>> m.flatten()
-        list([[1, 2, 3, 4]])
+        Vector([[1, 2, 3, 4]])
         """
-        if cls not in [list, tuple, hm.Vector]:
-            raise TypeError(
-                f"Matrix can only be flattend to list, tuple or Vector. Got {cls}")
 
         flat_list = []
-        # Iterate through the outer list
         for element in self.matrix:
             if type(element) is list:
                 # If the element is of type list, iterate through the sublist
@@ -591,7 +584,7 @@ class Matrix:
                     flat_list.append(item)
             else:
                 flat_list.append(element)
-        return cls(flat_list)
+        return hm.Vector(flat_list)
 
     def sum(self, axis: int = None) -> t.Union[int, float, "hm.Vector", "hm.Matrix"]:
         """
