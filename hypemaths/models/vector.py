@@ -173,4 +173,16 @@ class Vector:
         return cls(*points)
 
     def mean(self) -> float:
+        """
+        Returns the mean, which is the sum of all the elements divided by the number of elements
+        Returns
+        -------
+        float:
+            The mean of the vector
+        Examples
+        --------
+        >>> x = Vector([1, 2, 3])
+        >>> x.mean()
+        2.0
+        """
         return sum(self.points) / len(self.points)
