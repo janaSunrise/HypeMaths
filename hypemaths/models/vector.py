@@ -172,17 +172,32 @@ class Vector:
         points = [column[0] for column in matrix]
         return cls(*points)
 
-    def mean(self) -> float:
+    def mean(self, decimal: int = 2) -> float:
         """
         Returns the mean, which is the sum of all the elements divided by the number of elements
+
+        Parameters
+        ----------
+        decimal: Optional, defaultes to 2
+            To what decimal point the output should be rounded
+
         Returns
         -------
         float:
             The mean of the vector
+
         Examples
         --------
         >>> x = Vector([1, 2, 3])
         >>> x.mean()
         2.0
+        >>> y = Vector([1.7, 2.6, 3])
+        >>> y.mean(decimal=4)
+        2.4333
         """
-        return sum(self.points) / len(self.points)
+        if not isinstance(decimal, int):
+            raise TypeError(
+                f"Decimal parameter should be an integer not {type(decimal)}")
+        else:
+            mean = sum(self.points) / len(self.points)
+            return round(mean, decimal)
