@@ -539,7 +539,7 @@ class Matrix:
         Get the determinant of a matrix.
         In linear algebra, the determinant is a scalar value that can be computed from the elements of a square
         matrix and encodes certain properties of the linear transformation described by the matrix. The determinant of
-        a matrix A is denoted det, det A, or |A|.
+        a matrix ``A`` is denoted det, det ``A``, or ``|A|``.
 
         Returns
         -------
