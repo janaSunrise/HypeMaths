@@ -22,3 +22,5 @@ build/
 HypeMaths.egg-info/
 
 dist/
+
+docs/build
