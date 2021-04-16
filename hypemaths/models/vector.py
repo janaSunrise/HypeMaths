@@ -170,7 +170,8 @@ class Vector(CopyMixin):
         points = [abs(point) for point in self.points]
         return cls(*points)
 
-    def absolute(self, param: t.Any) -> float:
+    @staticmethod
+    def absolute(param: t.Any) -> float:
         points = math.sqrt(param @ param)
         return points
 
