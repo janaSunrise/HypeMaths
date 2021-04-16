@@ -25,7 +25,7 @@ setuptools.setup(
     name="HypeMaths",
     version=VERSION,
 
-    author="Sunrit Jana",
+    author="Deep Alchemy team",
     author_email="warriordefenderz@gmail.com",
 
     description="An extensible and easy way for advanced maths and its implementation in Python!",
@@ -68,5 +68,5 @@ setuptools.setup(
         "Natural Language :: English",
     ],
 
-    python_requires='>=3.6',
+    python_requires=">=3.6",
 )
