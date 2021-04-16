@@ -15,7 +15,7 @@ VERSION = re.search(
     re.MULTILINE
 ).group(1)
 
-URL = "https://github.com/janaSunrise/HypeMaths"
+URL = "https://github.com/Deep-Alchemy/HypeMaths"
 
 if not VERSION:
     raise RuntimeError("VERSION is not set!")
