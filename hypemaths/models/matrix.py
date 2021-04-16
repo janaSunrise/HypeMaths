@@ -70,7 +70,10 @@ class Matrix:
         return matrix.cols * matrix.rows
 
     def __repr__(self) -> str:
-        return "{}([{}])".format(self.__class__.__name__, ",\n         ".join([str(x) for x in self.matrix]))
+        return "{}([{}])".format(
+            self.__class__.__name__,
+            ",\n         ".join([str(x) for x in self.matrix])
+        )
 
     def __eq__(self, other: "Matrix") -> bool:
         if not isinstance(other, Matrix):
@@ -101,32 +104,24 @@ class Matrix:
         cls = self.__class__
 
         if not isinstance(other, cls):
-            raise TypeError(
-                f"Matrix can only be added with other matrix. Not {type(other)}")
+            raise TypeError(f"Matrix can only be added with other matrix. Not {type(other)}")
 
         if not (self.rows, self.cols) == (other.rows, other.cols):
-            raise MatrixDimensionError(
-                "These matrices cannot be added due to wrong dimensions.")
+            raise MatrixDimensionError("These matrices cannot be added due to wrong dimensions.")
 
-        matrix = [[self[row][cols] + other[row][cols]
-                   for cols in range(self.cols)] for row in range(self.rows)]
-
+        matrix = [[self[row][cols] + other[row][cols] for cols in range(self.cols)] for row in range(self.rows)]
         return cls(matrix)
 
     def __sub__(self, other: "Matrix") -> "Matrix":
         cls = self.__class__
 
         if not isinstance(other, cls):
-            raise TypeError(
-                f"Matrix can only be subtracted with other matrix. Not {type(other)}")
+            raise TypeError(f"Matrix can only be subtracted with other matrix. Not {type(other)}")
 
         if not (self.rows, self.cols) == (other.rows, other.cols):
-            raise MatrixDimensionError(
-                "These matrices cannot be subtracted due to wrong dimensions.")
+            raise MatrixDimensionError("These matrices cannot be subtracted due to wrong dimensions.")
 
-        matrix = [[self[row][cols] - other[row][cols]
-                   for cols in range(self.cols)] for row in range(self.rows)]
-
+        matrix = [[self[row][cols] - other[row][cols] for cols in range(self.cols)] for row in range(self.rows)]
         return cls(matrix)
 
     def __mul__(self, other: t.Union["Matrix"]) -> "Matrix":
@@ -137,12 +132,10 @@ class Matrix:
             return cls(matrix)
 
         if not isinstance(other, cls):
-            raise TypeError(
-                f"Matrix can only be multiplied with other matrix. Not {type(other)}")
+            raise TypeError(f"Matrix can only be multiplied with other matrix. Not {type(other)}")
 
         if self.cols != other.rows:
-            raise MatrixDimensionError(
-                "These matrices cannot be multiplied due to wrong dimensions.")
+            raise MatrixDimensionError("These matrices cannot be multiplied due to wrong dimensions.")
 
         matrix = [[
             sum(a * b for a, b in zip(self_row, other_col)) for other_col in zip(*other)] for self_row in self
@@ -158,12 +151,10 @@ class Matrix:
             return cls(matrix)
 
         if not isinstance(other, cls):
-            raise TypeError(
-                f"Matrix can only be divided with other matrix. Not {type(other)}")
+            raise TypeError(f"Matrix can only be divided with other matrix. Not {type(other)}")
 
         if self.cols != other.rows:
-            raise MatrixDimensionError(
-                "These matrices cannot be divided due to wrong dimensions.")
+            raise MatrixDimensionError("These matrices cannot be divided due to wrong dimensions.")
 
         matrix = [[
             sum(a / b for a, b in zip(self_row, other_col)) for other_col in zip(*other)] for self_row in self
@@ -240,6 +231,7 @@ class Matrix:
         >>> matrix = Matrix.get_filled_matrix((2, 2), 5)
         >>> matrix
         Matrix([[5, 5], [5, 5]])
+
         Create a matrix of dimensions : (4, 3) with the fill value 9
         >>> matrix = Matrix.get_filled_matrix((4, 3), 9)
         >>> matrix
@@ -512,9 +504,7 @@ class Matrix:
         """
         cls = self.__class__
 
-        matrix = [[self[cols][row]
-                   for cols in range(self.rows)] for row in range(self.cols)]
-
+        matrix = [[self[cols][row] for cols in range(self.rows)] for row in range(self.cols)]
         return cls(matrix)
 
     def frobenius_norm(self) -> float:
@@ -557,8 +547,7 @@ class Matrix:
                 current_row_scaler = matrix_copy[i][fd] / matrix_copy[fd][fd]
 
                 for j in range(matrix_size):
-                    matrix_copy[i][j] = matrix_copy[i][j] - \
-                        current_row_scaler * matrix_copy[fd][j]
+                    matrix_copy[i][j] = matrix_copy[i][j] - current_row_scaler * matrix_copy[fd][j]
 
         product = 1.0
         for i in range(matrix_size):
@@ -649,10 +638,10 @@ class Matrix:
             return sum(matrix.flatten())
 
         if axis not in [-1, 0, 1, None]:
-            raise TypeError(f"axis {axis} is out of bounds for array of dimension 2")
+            raise TypeError(f"Axis {axis} is out of bounds for array of 2nd dimension.")
 
         if not isinstance(axis, (list, int)):
-            raise TypeError(f"Axis should be int or list indices. Got {type(axis)}")
+            raise TypeError(f"Axis should be inteer or list indices. Got {type(axis)}")
 
         if axis == 0:
             return Matrix([float(sum(i)) for i in zip(*matrix)])
