@@ -194,6 +194,11 @@ class Vector(CopyMixin):
         points = [column[0] for column in matrix]
         return cls(*points)
 
+    @classmethod
+    def from_point(cls, point: "hm.Point") -> "Vector":
+        points = point.x, point.y
+        return cls(*points)
+
     def parallel_to(self, other: "Vector") -> bool:
         """
         Check if the Vectors are parallel to each other.

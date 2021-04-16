@@ -1,5 +1,6 @@
-from hypemaths.models import (
+from .models import (
     Matrix,
+    Point,
     Vector
 )
 
