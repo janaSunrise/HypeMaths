@@ -2,10 +2,11 @@ import math
 import typing as t
 
 import hypemaths as hm
-from hypemaths.exceptions import MatrixDimensionError, VectorDimensionError
+from ..exceptions import MatrixDimensionError, VectorDimensionError
+from ..mixins import CopyMixin
 
 
-class Vector:
+class Vector(CopyMixin):
     def __init__(self, *points: t.Union[int, tuple, list]) -> None:
         """
         Constructor for the `Vector` class.
@@ -169,8 +170,8 @@ class Vector:
         points = [abs(point) for point in self.points]
         return cls(*points)
 
-    def absolute(self) -> float:
-        points = math.sqrt(self @ self)
+    def absolute(self, param: t.Any) -> float:
+        points = math.sqrt(param @ param)
         return points
 
     @classmethod

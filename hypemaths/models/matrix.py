@@ -4,14 +4,15 @@ import random
 import typing as t
 
 import hypemaths as hm
-from hypemaths.exceptions import (
+from ..exceptions import (
     InvalidMatrixError,
     MatrixDimensionError,
     MatrixNotSquare,
 )
+from ..mixins import CopyMixin
 
 
-class Matrix:
+class Matrix(CopyMixin):
     def __init__(
             self,
             matrix: t.Union[int, float, list] = None
