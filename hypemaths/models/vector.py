@@ -1,3 +1,4 @@
+import math
 import typing as t
 
 import hypemaths as hm
@@ -14,6 +15,11 @@ class Vector:
             All the points for the vector.
         """
         self.points = self._cleaned_vector(points)
+
+        # Get the XYZW Dimensions
+        if self.dimensions <= 4:
+            for attribute, value in zip(list("xyzw"), self.points):
+                setattr(self, attribute, value)
 
     @staticmethod
     def _cleaned_vector(points: tuple) -> list:
@@ -111,9 +117,14 @@ class Vector:
                 "These vectors cannot be subtracted due to wrong dimensions."
             )
 
-        vector = [self[index] - other[index]
-                  for index in range(self.dimensions)]
+        vector = [self[index] - other[index] for index in range(self.dimensions)]
         return cls(vector)
+
+    def __matmul__(self, other: "Vector") -> float:
+        if self.dimensions != other.dimensions:
+            raise VectorDimensionError("These vectors cannot be multiplied due to wrong dimensions.")
+
+        return sum(x * y for x, y in zip(self, other))
 
     def __mul__(self, other: "Vector") -> "Vector":
         cls = self.__class__
@@ -152,6 +163,16 @@ class Vector:
     def __radd__(self, other: "Vector") -> "Vector":
         return self.__add__(other)
 
+    def __abs__(self) -> "Vector":
+        cls = self.__class__
+
+        points = [abs(point) for point in self.points]
+        return cls(*points)
+
+    def absolute(self) -> float:
+        points = math.sqrt(self @ self)
+        return points
+
     @classmethod
     def from_matrix(cls, matrix: "hm.Matrix") -> "Vector":
         """
@@ -170,6 +191,38 @@ class Vector:
 
         points = [column[0] for column in matrix]
         return cls(*points)
+
+    def parallel_to(self, other: "Vector") -> bool:
+        """
+        Check if the Vectors are parallel to each other.
+
+        Parameters
+        ----------
+        other: Vector
+            The other vector to be compared.
+
+        Returns
+        -------
+        bool
+            If it's parallel or not.
+        """
+        return math.isclose(abs(self @ other), self.absolute(self) * self.absolute(other))
+
+    def orthogonal_to(self, other: "Vector") -> bool:
+        """
+        Check if the Vectors are at a orthogonal from each other.
+
+        Parameters
+        ----------
+        other: Vector
+            The other vector to be compared.
+
+        Returns
+        -------
+        bool
+            If it's at an orthogonal distance.
+        """
+        return math.isclose(self @ other, 0)
 
     def mean(self, decimal: int = 2) -> float:
         """
