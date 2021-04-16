@@ -14,7 +14,7 @@ from hypemaths.exceptions import (
 class Matrix:
     def __init__(
             self,
-            matrix: t.Union[int, float, list] = None,
+            matrix: t.Union[int, float, list] = None
     ) -> None:
         """
         Parameters
@@ -68,6 +68,9 @@ class Matrix:
         """
         matrix = Matrix(self.matrix)
         return matrix.cols * matrix.rows
+
+    def __hash__(self):
+        return hash(self.matrix)
 
     def __repr__(self) -> str:
         return "{}([{}])".format(
