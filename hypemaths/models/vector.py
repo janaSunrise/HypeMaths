@@ -31,8 +31,8 @@ class Vector:
         def value_check(vector_points: list) -> bool:
             for index, point in enumerate(vector_points):
                 if not isinstance(point, (int, float)):
-                    raise TypeError(
-                        f"All points must be integers or floats, but point[{index}] is {type(point)}")
+                    raise TypeError(f"All points must be integers or floats, but point[{index}] is {type(point)}")
+
             return True
 
         if len(points) == 1 and isinstance(points[0], list):
@@ -143,8 +143,7 @@ class Vector:
                 "These vectors cannot be added due to wrong dimensions."
             )
 
-        vector = [self[index] / other[index]
-                  for index in range(self.dimensions)]
+        vector = [self[index] / other[index] for index in range(self.dimensions)]
         return cls(vector)
 
     def __floordiv__(self, other: "Vector") -> "Vector":
@@ -196,8 +195,7 @@ class Vector:
         2.4333
         """
         if not isinstance(decimal, int):
-            raise TypeError(
-                f"Decimal parameter should be an integer not {type(decimal)}")
+            raise TypeError(f"Decimal parameter should be an integer not {type(decimal)}")
         else:
             mean = sum(self.points) / len(self.points)
             return round(mean, decimal)
