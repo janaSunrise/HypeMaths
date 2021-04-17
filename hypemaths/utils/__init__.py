@@ -25,5 +25,5 @@ def scale_list(dataframe: Vector, range_: tuple) -> Vector:
     return Vector(scaled_list)
 
 
-def norm(vector: Vector, p: float = 2) -> float:
+def norm(vector: Vector, p: t.Union[int, float] = 2) -> t.Union[int, float]:
     return sum(elem ** p for elem in vector.points) ** (1 / p)
