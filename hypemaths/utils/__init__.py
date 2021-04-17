@@ -23,3 +23,7 @@ def scale_list(dataframe: Vector, range_: tuple) -> Vector:
 
     scaled_list = [round(scale_value(elem, old_range, range_)) for elem in dataframe.points]
     return Vector(scaled_list)
+
+
+def norm(vector: Vector, p: float = 2) -> float:
+    return sum(elem ** p for elem in vector.points) ** (1 / p)

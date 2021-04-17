@@ -12,6 +12,9 @@ class Point(CopyMixin):
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.x}, {self.y})"
 
+    def __hash__(self):
+        return hash((self.x, self.y))
+
     @staticmethod
     def cleaned_point_value(value: t.Any) -> t.Union[int, float]:
         if not isinstance(value, (int, float)):
